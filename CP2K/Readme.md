@@ -10,33 +10,11 @@ The current code repository is a series of patches and scripts for performance o
 
 Compiler: the GNU Compiler Collection, see [GCC Home](http://www.gnu.org/software/gcc).
 
-[to be supplemented]
-
-## How to Build
-
-### Installation Dependencies
-
-Install GCC compiler.
-
-[to be supplemented]
-
-### Build CP2K
-
-```
-[to be supplemented]
-```
-
 ### Install Patches
 
 ```
-cp 0001-support-aarch64.patch ${CP2K_HOME}
+cp 0001-support-aarch64.patch 0002-support-aarch64-with-optimization.patch ${CP2K_HOME}
 cd ${CP2K_HOME}
 git am 0001-support-aarch64.patch
+git am 0002-support-aarch64-with-optimization.patch
 ```
-
-## How to Run
-
-```
-[to be supplemented]
-```
-

@@ -1,7 +1,7 @@
-From 3a4d7b2865d7112a075af2029f95fe3e316f46c1 Mon Sep 17 00:00:00 2001
-From: Negi <mapleyeh@qq.com>
-Date: Tue, 17 Aug 2021 19:32:20 +0800
-Subject: [PATCH] support aarch64
+From 51576885d2a04f693da4f8ae838b57ec48e91ac2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E6=9D=A8=E5=BE=B7=E5=BF=97?= <deathyyoung@qq.com>
+Date: Sat, 28 Aug 2021 02:38:22 +0800
+Subject: [PATCH 1/2] support aarch64
 
 ---
  arch/Linux-aarch64-gfortran.psmp | 58 ++++++++++++++++++++++++++++++++
@@ -10,7 +10,7 @@ Subject: [PATCH] support aarch64
 
 diff --git a/arch/Linux-aarch64-gfortran.psmp b/arch/Linux-aarch64-gfortran.psmp
 new file mode 100644
-index 000000000..3d40d9c1d
+index 000000000..f6872403f
 --- /dev/null
 +++ b/arch/Linux-aarch64-gfortran.psmp
 @@ -0,0 +1,58 @@
@@ -70,7 +70,7 @@ index 000000000..3d40d9c1d
 +LIBS       += $(FFTW_LIB)/libfftw3_threads.a
 +LIBS       += $(MPI_LIBRARY_PATH)/libscalapack.a
 +LIBS       += $(LIBPATH)/liblapack.a
-+LIBS       += $(LIBPATH)/libblas.a
++LIBS       += $(LIBPATH)/librefblas.a
 +LIBS       += -ldl -lpthread -lstdc++
 -- 
 2.32.0.windows.2
