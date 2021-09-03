@@ -1,0 +1,77 @@
+From 51576885d2a04f693da4f8ae838b57ec48e91ac2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E6=9D=A8=E5=BE=B7=E5=BF=97?= <deathyyoung@qq.com>
+Date: Sat, 28 Aug 2021 02:38:22 +0800
+Subject: [PATCH 1/2] support aarch64
+
+---
+ arch/Linux-aarch64-gfortran.psmp | 58 ++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+ create mode 100644 arch/Linux-aarch64-gfortran.psmp
+
+diff --git a/arch/Linux-aarch64-gfortran.psmp b/arch/Linux-aarch64-gfortran.psmp
+new file mode 100644
+index 000000000..f6872403f
+--- /dev/null
++++ b/arch/Linux-aarch64-gfortran.psmp
+@@ -0,0 +1,58 @@
++# Tested with: GFortran 9.3.0, OpenMP 4.0.4, LAPACK 3.8.0, ScaLAPACK 2.1.0, FFTW 3.3, Libint 2.6.0, Libxc 4.3.4, ELPA 2019.05.001, PLUMED 2.5.2, GSL 2.6, SPGLIB 1.12.2
++
++CC          = mpicc
++FC          = mpif90
++LD          = mpif90
++AR          = ar -r
++
++include       $(MPI_PATH)/plumed/2.5.2/lib/plumed/src/lib/Plumed.inc.static
++
++ELPA_VER    = 2019.05.001
++ELPA_INC    = $(MPI_PATH)/elpa/$(ELPA_VER)-openmp/include/elpa_openmp-$(ELPA_VER)
++ELPA_LIB    = $(MPI_PATH)/elpa/$(ELPA_VER)-openmp/lib
++
++FFTW_INC    = $(GNU_PATH)/fftw/3.3/include
++FFTW_LIB    = $(GNU_PATH)/fftw/3.3/lib
++
++LIBINT_INC  = $(GNU_PATH)/libint/2.6.0-lmax-6/include
++LIBINT_LIB  = $(GNU_PATH)/libint/2.6.0-lmax-6/lib
++
++LIBXC_INC   = $(GNU_PATH)/libxc/4.3.4/include
++LIBXC_LIB   = $(GNU_PATH)/libxc/4.3.4/lib
++
++GSL_INC     = $(GNU_PATH)/gsl/2.6/include
++GSL_LIB     = $(GNU_PATH)/gsl/2.6/lib
++
++PLUMED_INC  = $(GNU_PATH)/plumed/2.5.2/include
++PLUMED_LIB  = $(GNU_PATH)/plumed/2.5.2/lib
++
++SPGLIB_INC  = $(GNU_PATH)/spglib/1.12.2/include
++SPGLIB_LIB  = $(GNU_PATH)/spglib/1.12.2/lib
++
++CFLAGS      = -O2 -g -mtune=native
++
++DFLAGS      = -D__ELPA -D__FFTW3 -D__LIBINT -D__LIBXC
++DFLAGS     += -D__MPI_VERSION=3 -D__PLUMED2 -D__SPGLIB
++DFLAGS     += -D__parallel -D__SCALAPACK
++
++FCFLAGS     = $(CFLAGS) $(DFLAGS)
++FCFLAGS    += -ffree-form -ffree-line-length-none
++FCFLAGS    += -fopenmp
++FCFLAGS    += -ftree-vectorize -funroll-loops -std=f2008
++FCFLAGS    += -I$(ELPA_INC)/elpa -I$(ELPA_INC)/modules
++FCFLAGS    += -I$(FFTW_INC) -I$(LIBINT_INC) -I$(LIBXC_INC) -I$(GSL_INC) -I$(PLUMED_INC) -I$(SPGLIB_INC)
++
++LDFLAGS     = $(FCFLAGS) -static-libgfortran
++
++LIBS        = $(PLUMED_LIB) $(GSL_LIB) -lplumedKernel -lplumed -lgsl -lgslcblas -lz
++LIBS       += $(ELPA_LIB)/libelpa_openmp.a
++LIBS       += $(LIBXC_LIB)/libxcf03.a
++LIBS       += $(LIBXC_LIB)/libxc.a
++LIBS       += $(LIBINT_LIB)/libint2.a
++LIBS       += $(SPGLIB_LIB)/libsymspg.a
++LIBS       += $(FFTW_LIB)/libfftw3.a
++LIBS       += $(FFTW_LIB)/libfftw3_threads.a
++LIBS       += $(MPI_LIBRARY_PATH)/libscalapack.a
++LIBS       += $(LIBPATH)/liblapack.a
++LIBS       += $(LIBPATH)/librefblas.a
++LIBS       += -ldl -lpthread -lstdc++
+-- 
+2.32.0.windows.2
+
